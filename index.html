@@ -1,1 +1,47 @@
-# mofluxx-.github.io
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Snap‑Antwortzeit‑Tracker</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    button { font-size: 18px; padding: 15px; margin: 10px; width: 80%; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <h1>Snap‑Antwortzeit‑Tracker</h1>
+  <p id="status">Drücke "Nachricht gesendet", um zu starten.</p>
+  <button onclick="startTimer()">📤 Nachricht gesendet</button>
+  <button onclick="stopTimer()">📥 Antwort erhalten</button>
+  <h2 id="result"></h2>
+  <h3 id="average"></h3>
+
+  <script>
+    let startTime = null;
+    let times = [];
+
+    function startTimer() {
+      startTime = new Date();
+      document.getElementById("status").textContent = "⏳ Warten auf Antwort...";
+      document.getElementById("result").textContent = "";
+    }
+
+    function stopTimer() {
+      if (!startTime) {
+        alert("Du musst zuerst auf 'Nachricht gesendet' klicken.");
+        return;
+      }
+      const now = new Date();
+      const duration = (now - startTime) / 1000;
+      times.push(duration);
+      const avg = times.reduce((a, b) => a + b, 0) / times.length;
+
+      document.getElementById("result").textContent = `Antwortdauer: ${duration.toFixed(1)} Sekunden`;
+      document.getElementById("average").textContent = `Durchschnitt: ${avg.toFixed(1)} Sekunden`;
+      startTime = null;
+      document.getElementById("status").textContent = "Drücke 'Nachricht gesendet' für die nächste Runde.";
+    }
+  </script>
+</body>
+</html>
+
